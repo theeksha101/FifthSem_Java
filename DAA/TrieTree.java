@@ -25,8 +25,8 @@ public class TrieTree {
             int index = getIndex(character);
             if (temp.characters[index] == null){
                 temp.characters[index] = new TrieNode();
-            temp = temp.characters[index];
             }
+            temp = temp.characters[index];
         }
         temp.isEndOfWord = true;
     }
@@ -46,25 +46,52 @@ public class TrieTree {
         return (crawl.isEndOfWord);
     }
 
-    void findLCP(){
-        
+    int countChildren(TrieNode node){
+        int count = 0;
+
+        for (int i = 0; i < 26; i++){
+            if (node.characters[i] != null){
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    void findLCP(String[] array){
+        TrieNode crawl = root;
+        StringBuilder prefix = new StringBuilder();
+        for (String str : array){
+            int wordLength = str.length();
+            for (int i = 0; i < wordLength; i++){
+                int index = str.charAt(i) - 'a';
+                if (countChildren(crawl) == 1 && !crawl.isEndOfWord){
+                    crawl= crawl.characters[index];
+                    prefix.append((char) ('a' + index));
+                }
+            }
+        }
+        System.out.println(prefix);
     }
 
     public static void main(String[] args) {
         TrieTree tree = new TrieTree();
 
-        Scanner takeInput = new Scanner(System.in);
-        System.out.println("Enter Some Strings: ");
-        String userGivenString = takeInput.nextLine();
-        System.out.println(userGivenString);
-        String[] spacedString = userGivenString.split("\\s+");
-        System.out.println(Arrays.toString(spacedString));
+//        Scanner takeInput = new Scanner(System.in);
+//        System.out.println("Enter Some Strings: ");
+//        String userGivenString = takeInput.nextLine();
+//        System.out.println(userGivenString);
+//        String[] spacedString = userGivenString.split("\\s+");
+//        System.out.println(Arrays.toString(spacedString));
 
-        for (String s : spacedString) {
-            tree.insert(s);
-        }
+//        for (String s : spacedString) {
+//            tree.insert(s);
+//        }
 
+        tree.insert("apple");
+        tree.insert("appy");
+        tree.insert("appu");
 
-
+        String[] array = {"apple", "appy", "appu"};
+        tree.findLCP(array);
     }
 }
