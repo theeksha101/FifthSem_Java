@@ -1,6 +1,4 @@
-package DAA;
-
-import java.util.Arrays;
+package com.DAA;
 
 public class TrieNode {
     TrieNode[] characters = new TrieNode[26];

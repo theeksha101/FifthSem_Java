@@ -1,6 +1,8 @@
-package DAA;
+package com.DAA;
 
-import java.util.Arrays;
+// LCP using Trie
+
+import java.util.Objects;
 import java.util.Scanner;
 
 public class TrieTree {
@@ -53,11 +55,13 @@ public class TrieTree {
             if (node.characters[i] != null){
                 count ++;
             }
+            //TODO:
+
         }
         return count;
     }
 
-    void findLCP(String[] array){
+    StringBuilder findLCP(String[] array){
         TrieNode crawl = root;
         StringBuilder prefix = new StringBuilder();
         for (String str : array){
@@ -70,28 +74,40 @@ public class TrieTree {
                 }
             }
         }
-        System.out.println(prefix);
+        return prefix;
     }
 
     public static void main(String[] args) {
-        TrieTree tree = new TrieTree();
 
-//        Scanner takeInput = new Scanner(System.in);
-//        System.out.println("Enter Some Strings: ");
-//        String userGivenString = takeInput.nextLine();
-//        System.out.println(userGivenString);
-//        String[] spacedString = userGivenString.split("\\s+");
-//        System.out.println(Arrays.toString(spacedString));
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_YELLOW = "\u001B[33m";
+        final String ANSI_BLUE = "\u001B[34m";
 
-//        for (String s : spacedString) {
-//            tree.insert(s);
-//        }
+        Scanner takeInput = new Scanner(System.in);
+        System.out.println("-------------------------------------------------------------------------------------");
+        System.out.println(ANSI_YELLOW + "Keep giving strings as inputs to find the Longest Common Prefix among them");
+        System.out.println(ANSI_YELLOW + "Enter" + ANSI_RED+" 'exit' " + ANSI_YELLOW +" to stop giving strings");
+        String userGivenString = takeInput.nextLine();
 
-        tree.insert("apple");
-        tree.insert("appy");
-        tree.insert("appu");
+        while (!Objects.equals(userGivenString, "exit")){
+            TrieTree tree = new TrieTree();
 
-        String[] array = {"apple", "appy", "appu"};
-        tree.findLCP(array);
+            String[] spacedString = userGivenString.split("\\s+");
+            for (String s : spacedString) {
+                tree.insert(s);
+            }
+
+            StringBuilder producedPrefix = tree.findLCP(spacedString);
+            if (producedPrefix.length() != 0){
+                System.out.println(ANSI_BLUE + "'" +producedPrefix + "'" + ANSI_RESET + " is the prefix");
+            }
+            else {
+                System.out.println(ANSI_BLUE + "-1"+ ANSI_RESET);
+            }
+
+            System.out.println("-------------------------------------------------------------------------------------");
+            userGivenString = takeInput.nextLine();
+        }
     }
 }

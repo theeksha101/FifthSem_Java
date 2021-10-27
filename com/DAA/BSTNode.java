@@ -1,4 +1,4 @@
-package DAA;
+package com.DAA;
 
 public class BSTNode {
     int data;
